@@ -15,6 +15,7 @@ Main.prototype = {
     game.load.script('polyfill',  'lib/polyfill.js');
     game.load.script('utils',     'lib/utils.js');
     game.load.script('splash',    'states/Splash.js');
+    game.load.image('bgImageTitle', "img/ecoSphereGameTitleBackground.png");
   },
 
   create: function () {

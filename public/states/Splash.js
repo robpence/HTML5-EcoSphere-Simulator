@@ -16,7 +16,7 @@ Splash.prototype = {
   },
 
   loadImages: function () {
-    game.load.image('bgImageTitle', "img/ecoSphereGameTitleBackground.png");
+    //game.load.image('bgImageTitle', "img/ecoSphereGameTitleBackground.png");
     game.load.image('bgImage', "img/ecoSphereGameBackground.png");
     game.load.image('playImage', "img/play.png");
     game.load.image('creditsImage', "img/credits.png");
@@ -41,6 +41,7 @@ Splash.prototype = {
   preload: function () {
     //how to make a logo
     //game.add.existing(this.logo).scale.setTo(0.5);
+    game.add.sprite(0, 0, 'bgImageTitle');
     game.add.existing(this.loadingBar);
     game.add.existing(this.status);
     this.load.setPreloadSprite(this.loadingBar);
@@ -73,6 +74,7 @@ Splash.prototype = {
     this.addGameStates();
     this.addGameMusic();
 
+    
     setTimeout(function () {
       game.state.start("GameMenu");
     }, 1000);

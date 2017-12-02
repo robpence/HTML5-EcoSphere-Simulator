@@ -5,8 +5,8 @@ var Game = function() {};
 var map, bgGroup, layer;
 var day = 0;
 var dayText, OxygenText, CO2Text, MoneyText, ResourcesText;
-var CO2 = 10;
-var O2 = 10;
+var CO2 = 100;
+var O2 = 100;
 var gold = 500;
 var shrimpCounter = 7;
 var BrineShrimpsGroup;
@@ -102,7 +102,7 @@ Game.prototype = {
 	}, 
 
 	render() {
-		game.debug.inputInfo(32, 32);
+		//game.debug.inputInfo(32, 32);
     	//game.debug.spriteInputInfo(sprite, 32, 130);
     	//game.debug.pointer( game.input.activePointer );
 	},
