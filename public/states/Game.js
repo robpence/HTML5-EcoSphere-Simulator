@@ -8,7 +8,7 @@ var dayText, OxygenText, CO2Text, MoneyText, ResourcesText;
 var CO2 = 5;
 var O2 = 20;
 var gold = 500;
-var shrimpCounter = 3;
+var shrimpCounter = 7;
 var BrineShrimpsGroup;
 var DeadBrineShrimpsGroup;
 
