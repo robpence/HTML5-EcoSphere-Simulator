@@ -5,12 +5,14 @@ var Game = function() {};
 var map, bgGroup, layer;
 var day = 0;
 var dayText, OxygenText, CO2Text, MoneyText, ResourcesText;
-var CO2 = 5;
-var O2 = 20;
+var CO2 = 10;
+var O2 = 10;
 var gold = 500;
 var shrimpCounter = 7;
 var BrineShrimpsGroup;
 var DeadBrineShrimpsGroup;
+var numAlgae = 0;
+var numShrimp = 0;
 
 Game.prototype = {
 	
@@ -119,56 +121,68 @@ function UpdateDay(){
 	//console.log(CO2);
 }
 
+function AlgaeIncreased(){
+	CO2 -= 1;
+	numAlgae += 1;
+}
+
 function UpdateAlgaeGrowth(){
 	//loop through entire map
-	var algaeCounter = 0;
 
 	for(var y = 0; y < map.height; ++y){
 		for(var x = 0; x < map.width; ++x){      
 			
 			var tile = map.getTile(x, y, layer);
 			//console.log(tile);
-			if(tile != null){
-				if(tile.index == 2){
+			if(tile != null){	//check if tile exists
+
+				if(tile.index == 2){	//check if tile is deadshrimp
 					CO2 += 1;
 					map.putTile(5, x, y, layer);
 				}
-				if(tile.index == 1){
-					algaeCounter += 1;
 
-					if(CO2 > 0){
+				else if(tile.index == 1){	//check if tile is alive
+					if(CO2 > 0){	//if CO2
 						CO2 -= 1;
 						O2 += 1;
-						if(algaeCounter < 6384){
+						if(numAlgae < 6384 && CO2 > 0){
 							//get random number to choose direction?
 							n = Math.floor(Math.random()*(4-1+1)+1);
 							if(n == 1){
-								if(map.getTile(x-1,y,layer).index == 5 && map.getTile(x-1,y,layer).index != 1){
+								//if(map.getTile(x-1,y,layer).index == 5 && map.getTile(x-1,y,layer).index != 1){
+								if(map.getTile(x-1,y,layer).index == 5){
 									map.putTile(1, x-1, y, layer);
+									AlgaeIncreased();
 								}
 							}else if(n == 2){
-								if(map.getTile(x+1,y,layer).index == 5 && map.getTile(x+1,y,layer).index != 1){
+								if(map.getTile(x+1,y,layer).index == 5){
 									map.putTile(1, x+1, y, layer);
-									x+=1;
+									AlgaeIncreased();
 								}
 							}else if(n == 3){
-								if(map.getTile(x,y-1,layer).index == 5 && map.getTile(x,y-1,layer).index != 1){
+								if(map.getTile(x,y-1,layer).index == 5){
 									map.putTile(1, x, y-1, layer);
+									AlgaeIncreased();
 								}
 							}else{
-								if(map.getTile(x,y+1,layer).index == 5 && map.getTile(x,y+1,layer).index != 1){
+								if(map.getTile(x,y+1,layer).index == 5){
 									map.putTile(1, x, y+1, layer);
+									AlgaeIncreased();
 								}
 							}
 						}
-					}else if(CO2 <= 0){
+					}
+					else if(CO2 <= 0){	//if no CO2
 						map.putTile(2, x, y, layer);
+						numAlgae -= 1;
 					}
 				}
 			}
 
 		}
 	}
+
+	console.log(numAlgae);
 }
 
 function AddAlgae(){
@@ -188,72 +202,89 @@ function AddAlgae(){
 			isAlgaeAdded = true;
 			gold -= 5;
 			MoneyText.value = "Gold: " + gold + "g";
+			numAlgae += 1;
 		}
 	}
 	//console.log("Added some algae");
+}
+
+function BrineShrimpIncreased(){
+	O2 -= 1;
+	numShrimp += 1;
 }
 
 function AddBrineShrimp(){
 	gold -= 10;
 	MoneyText.value = "Gold: " + gold + "g";
 	BrineShrimpsGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'brineShrimp');
-	console.log("Added some brine shrimp");
+	console.log("Added a brine shrimp");
+	numShrimp += 1;
 }
 
 function UpdateBrineShrimpGrowth(){
-	//loop through entire map
-	//var brineShrimpCounter = 0;
-	console.log("updatedbrineshrimpgrowth");
-
+	//console.log("updatedbrineshrimpgrowth");
+	/*	THE WRONG WAY TO DELETE ALL ITEMS IN A GROUP
 	DeadBrineShrimpsGroup.forEach( function(item){
 		if(item != null){
 			console.log("removed from deadbrineshrimpgroup");
 			CO2 += 1;
 			DeadBrineShrimpsGroup.remove(item);
 		}
-	});
+	}); 
+	*/
+	//remove dead brineshrimp bodies from map
+	CO2 = CO2 + DeadBrineShrimpsGroup.total;
+	DeadBrineShrimpsGroup.removeChildren();
+	//console.log(DeadBrineShrimpsGroup.total); //should be 0 every time
+
 
 	var tempShrimpGroup = game.add.group();
-
+	//console.log(BrineShrimpsGroup);
+	//console.log(BrineShrimpsGroup.total);
+	//console.log(BrineShrimpsGroup.children[0]);
 	BrineShrimpsGroup.forEach( function(item){
 		if(item != null){
 			if(O2 > 0){
 				CO2 += 1;
 				O2 -= 1;
 
-				//reproduce if there is oxygen
-				if(day % shrimpCounter == 0){
+				//reproduce if there is oxygen, place new shrimp in temp for reasons
+				if(day % shrimpCounter == 0 && O2 > 0){
 					n = Math.floor(Math.random()*(4-1+1)+1);
-					console.log("tempshrimp added");
+					//console.log("tempshrimp added");
 					if(n == 1){
 						if(item.x > 234){ //230 + 4?
 							tempShrimpGroup.create(item.x - 4, item.y, 'brineShrimp');
+							BrineShrimpIncreased();
 						}
 					}
 					else if(n == 2){
 						if(item.x < 665){ //673 - 8?
 							tempShrimpGroup.create(item.x + 4, item.y, 'brineShrimp');
+							BrineShrimpIncreased();
 						}
 					}
 					else if(n == 3){
 						if(item.y > 38){ //34 + 4?
 							tempShrimpGroup.create(item.x, item.y - 4, 'brineShrimp');
+							BrineShrimpIncreased();
 						}
 					}
 					else{
 						if(item.y < 469){ //477 - 8?
 							tempShrimpGroup.create(item.x, item.y + 4, 'brineShrimp');
+							BrineShrimpIncreased();
 						}
 					}
 				}
 			}
-			//kill of the shrimp and replace with dead bodies
+			//kill off the shrimp and replace with dead bodies
 			else if(O2 <= 0){
-				console.log("deadbs create");
-				console.log("bsg removed");
+				//console.log("deadbs create");
+				//console.log("bsg removed");
 				DeadBrineShrimpsGroup.create(item.x, item.y, 'deadBrineShrimp');
 				BrineShrimpsGroup.remove(item);
-				console.log(item);
+				numShrimp -= 1;
 			}
 		}
 
@@ -261,14 +292,14 @@ function UpdateBrineShrimpGrowth(){
 
 	tempShrimpGroup.forEach( function(item){
 		if(item != null){
-			console.log("bsg create, tempshrimp remove");
+			//console.log("bsg create, tempshrimp remove");
 			BrineShrimpsGroup.create(item.x, item.y, 'brineShrimp');
-			tempShrimpGroup.remove(item);
+			//tempShrimpGroup.remove(item);
 		}
 	});
-
-	//destory the group
-
+	tempShrimpGroup.removeChildren();
+	//console.log(tempShrimpGroup.total); //should be 0
+	console.log(numShrimp);
 }
 
 function UpdateBrineShrimpMovement(){
