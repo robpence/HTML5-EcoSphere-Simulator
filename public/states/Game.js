@@ -5,12 +5,14 @@ var Game = function() {};
 var map, bgGroup, layer;
 var day = 0;
 var dayText, OxygenText, CO2Text, MoneyText, ResourcesText;
-var CO2 = 100;
-var O2 = 100;
+var CO2 = 1000;
+var O2 = 1000;
 var gold = 500;
 var shrimpCounter = 7;
 var BrineShrimpsGroup;
 var DeadBrineShrimpsGroup;
+var DeadAlgaeGroup;
+var AlgaeGroup;
 var numAlgae = 0;
 var numShrimp = 0;
 
@@ -24,12 +26,16 @@ Game.prototype = {
     	game.load.image('tiles', 'img/ecoSphereGameTiles.png');
     	game.load.image('brineShrimp', 'img/brineShrimpSprite.png');
     	game.load.image('deadBrineShrimp', 'img/deadBrineShrimpSprite.png');
+    	game.load.image('smallShrimp', 'img/smallshrimp.png');
+    	game.load.image('algaeSprite', 'img/algaeSprite.png');
 	},
 
 	create() {
 		game.add.sprite(0, 0, 'bgImage');
 		BrineShrimpsGroup = game.add.group();
 		DeadBrineShrimpsGroup = game.add.group();
+		AlgaeGroup = game.add.group();
+		DeadAlgaeGroup = game.add.group();
 
 
 		/* Create the map that is used for the fish tank */
@@ -81,20 +87,27 @@ Game.prototype = {
 		panelRight.add(CO2Text);
 		panelRight.add(MoneyText);
 		panelRight.add(dayText);
-		panelRight.add(pauseButton = new SlickUI.Element.Button(0,430, 60, 40));
-		pauseButton.events.onInputUp.add(function () {
-			pauseGame();
-		});
-		pauseButton.add(new SlickUI.Element.Text(0,0, "Pause")).center();
-		panelRight.add(resumeButton = new SlickUI.Element.Button(70,430, 60, 40));
-		resumeButton.events.onInputUp.add(function () {
-			resumeGame();
-		});
-		resumeButton.add(new SlickUI.Element.Text(0,0, "Play")).center();
 
-		game.time.events.loop(Phaser.Timer.SECOND * 5, UpdateDay, this);
-		game.time.events.loop(Phaser.Timer.SECOND * 2, UpdateBrineShrimpMovement, this);
-		//maybe add a second loop thats on a 1 or 2 second timer that lets the animals move around?
+		panelRight.add(XButton = new SlickUI.Element.Button(0,430, 40, 40));
+		XButton.events.onInputUp.add(function () {
+			ModifyLoopTimerX();
+		});
+		XButton.add(new SlickUI.Element.Text(0,0, ">")).center();
+
+		panelRight.add(XXButton = new SlickUI.Element.Button(50,430, 40, 40));
+		XXButton.events.onInputUp.add(function () {
+			ModifyLoopTimerXX();
+		});
+		XXButton.add(new SlickUI.Element.Text(0,0, ">>")).center();
+
+		panelRight.add(XXXButton = new SlickUI.Element.Button(100,430, 40, 40));
+		XXXButton.events.onInputUp.add(function () {
+			ModifyLoopTimerXXX();
+		});
+		XXXButton.add(new SlickUI.Element.Text(0,0, ">>>")).center();
+
+		game.time.events.loop(Phaser.Timer.SECOND * 10, UpdateDay, this);
+		game.time.events.loop(Phaser.Timer.SECOND * 0.5, UpdateBrineShrimpMovement, this);
 
 	},
 
@@ -107,6 +120,19 @@ Game.prototype = {
     	//game.debug.pointer( game.input.activePointer );
 	},
 };
+
+function ModifyLoopTimerX(){
+	game.time.events.events[1].delay = 10000;
+	console.log('10');
+}
+function ModifyLoopTimerXX(){
+	game.time.events.events[1].delay = 5000;
+	console.log('5');
+}
+function ModifyLoopTimerXXX(){
+	game.time.events.events[1].delay = 2500;
+	console.log('2.5');
+}
 
 function UpdateDay(){
 	day = day + 1;
@@ -126,6 +152,78 @@ function AlgaeIncreased(){
 	numAlgae += 1;
 }
 
+function UpdateAlgaeGrowth(){
+	//remove dead algae bodies from map
+	CO2 = CO2 + DeadAlgaeGroup.total;
+	DeadAlgaeGroup.removeChildren();
+	//console.log(DeadAlgaeGroup.total); //should be 0 every time
+
+
+	var tempAlgaeGroup = game.add.group();
+	//console.log(AlgaeGroup);
+	//console.log(AlgaeGroup.total);
+	//console.log(AlgaeGroup.children[0]);
+	AlgaeGroup.forEach( function(item){
+		if(item != null){
+			if(CO2 > 0){
+				O2 += 1;
+				CO2 -= 1;
+
+				//reproduce if there is oxygen, place new shrimp in temp for reasons
+				if(CO2 > 0){
+					n = Math.floor(Math.random()*(4-1+1)+1);
+					//console.log("tempalgae added");
+					if(n == 1){
+						if(item.x > 234){ //230 + 4?
+							tempAlgaeGroup.create(item.x - 4, item.y, 'algaeSprite');
+							AlgaeIncreased();
+						}
+					}
+					else if(n == 2){
+						if(item.x < 665){ //673 - 8?
+							tempAlgaeGroup.create(item.x + 4, item.y, 'algaeSprite');
+							AlgaeIncreased();
+						}
+					}
+					else if(n == 3){
+						if(item.y > 38){ //34 + 4?
+							tempAlgaeGroup.create(item.x, item.y - 4, 'algaeSprite');
+							AlgaeIncreased();
+						}
+					}
+					else{
+						if(item.y < 469){ //477 - 8?
+							tempAlgaeGroup.create(item.x, item.y + 4, 'algaeSprite');
+							AlgaeIncreased();
+						}
+					}
+				}
+			}
+			//kill off the algae and replace with dead bodies
+			else if(CO2 <= 0){
+				//console.log("deadbs create");
+				//console.log("bsg removed");
+				DeadAlgaeGroup.create(item.x, item.y, 'deadBrineShrimp');
+				AlgaeGroup.remove(item);
+				numAlgae -= 1;
+			}
+		}
+
+	});
+
+	tempAlgaeGroup.forEach( function(item){
+		if(item != null){
+			//console.log("bsg create, tempshrimp remove");
+			AlgaeGroup.create(item.x, item.y, 'algaeSprite');
+			//tempShrimpGroup.remove(item);
+		}
+	});
+	tempAlgaeGroup.removeChildren();
+	//console.log(tempShrimpGroup.total); //should be 0
+	console.log(numAlgae);
+}
+
+/*
 function UpdateAlgaeGrowth(){
 	//loop through entire map
 
@@ -184,7 +282,8 @@ function UpdateAlgaeGrowth(){
 
 	console.log(numAlgae);
 }
-
+*/
+/*
 function AddAlgae(){
 	maxHeight = map.height;
 	maxWidth = map.width;
@@ -207,6 +306,16 @@ function AddAlgae(){
 	}
 	//console.log("Added some algae");
 }
+*/
+
+function AddAlgae(){
+	gold -= 5;
+	MoneyText.value = "Gold: " + gold + "g";
+	AlgaeGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'algaeSprite');
+	console.log("Added a algae");
+	numAlgae += 1;
+}
+
 
 function BrineShrimpIncreased(){
 	O2 -= 1;
@@ -216,7 +325,7 @@ function BrineShrimpIncreased(){
 function AddBrineShrimp(){
 	gold -= 10;
 	MoneyText.value = "Gold: " + gold + "g";
-	BrineShrimpsGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'brineShrimp');
+	BrineShrimpsGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallShrimp');
 	console.log("Added a brine shrimp");
 	numShrimp += 1;
 }
@@ -254,25 +363,25 @@ function UpdateBrineShrimpGrowth(){
 					//console.log("tempshrimp added");
 					if(n == 1){
 						if(item.x > 234){ //230 + 4?
-							tempShrimpGroup.create(item.x - 4, item.y, 'brineShrimp');
+							tempShrimpGroup.create(item.x - 4, item.y, 'smallShrimp');
 							BrineShrimpIncreased();
 						}
 					}
 					else if(n == 2){
 						if(item.x < 665){ //673 - 8?
-							tempShrimpGroup.create(item.x + 4, item.y, 'brineShrimp');
+							tempShrimpGroup.create(item.x + 4, item.y, 'smallShrimp');
 							BrineShrimpIncreased();
 						}
 					}
 					else if(n == 3){
 						if(item.y > 38){ //34 + 4?
-							tempShrimpGroup.create(item.x, item.y - 4, 'brineShrimp');
+							tempShrimpGroup.create(item.x, item.y - 4, 'smallShrimp');
 							BrineShrimpIncreased();
 						}
 					}
 					else{
 						if(item.y < 469){ //477 - 8?
-							tempShrimpGroup.create(item.x, item.y + 4, 'brineShrimp');
+							tempShrimpGroup.create(item.x, item.y + 4, 'smallShrimp');
 							BrineShrimpIncreased();
 						}
 					}
@@ -293,7 +402,7 @@ function UpdateBrineShrimpGrowth(){
 	tempShrimpGroup.forEach( function(item){
 		if(item != null){
 			//console.log("bsg create, tempshrimp remove");
-			BrineShrimpsGroup.create(item.x, item.y, 'brineShrimp');
+			BrineShrimpsGroup.create(item.x, item.y, 'smallShrimp');
 			//tempShrimpGroup.remove(item);
 		}
 	});
