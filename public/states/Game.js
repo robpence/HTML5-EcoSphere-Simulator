@@ -516,5 +516,5 @@ function pauseGame(){
 }
 
 function resumeGame(){
-	console.log("TODO resume game")
+	console.log("TODO resume game");
 }
