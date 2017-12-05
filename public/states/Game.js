@@ -115,6 +115,7 @@ Game.prototype = {
 	}, 
 
 	render() {
+		//Debugging statements
 		//game.debug.inputInfo(32, 32);
     	//game.debug.spriteInputInfo(sprite, 32, 130);
     	//game.debug.pointer( game.input.activePointer );
@@ -449,6 +450,67 @@ function UpdateBrineShrimpMovement(){
 
 }
 
+/* ---------- TODO Functions ----------*/
+
+//TODO add function for snails
+function addSnail(){
+
+}
+function updateSnailMovement(){
+
+}
+function updateSnailGrowth(){
+
+}
+
+//TODO add function for small fish
+function addFish(){
+
+}
+function updateFishMovement(){
+
+}
+function updateFishGrowth(){
+
+}
+
+//TODO add functions for small shrimp
+function addShrimp(){
+
+}
+function updateSmallShrimpMovement(){
+
+}
+function updateSmallShrimpGrowth(){
+
+}
+
+
+//TODO add function for JavaMoss
+function addJavaMoss(){
+
+}
+function updateJavaMossGrowth(){
+
+}
+
+//TODO add functions for JavaFerns
+function addJavaFern(){
+
+}
+function updateJavaFernGrowth(){
+
+}
+
+//TODO add function for MossBalls
+function addMossBall(){
+
+}
+function updateMossBallGrowth(){
+
+}
+
+//TODO add functions for pause and resume
 function pauseGame(){
 	console.log("TODO pause game");
 }
