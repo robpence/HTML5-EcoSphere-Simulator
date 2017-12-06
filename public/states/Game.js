@@ -13,8 +13,19 @@ var BrineShrimpsGroup;
 var DeadBrineShrimpsGroup;
 var DeadAlgaeGroup;
 var AlgaeGroup;
+var SnailGroup;
+var FishGroup;
+var JavaFernGroup;
+var JavaMossGroup;
+var MossBallGroup;
 var numAlgae = 0;
 var numShrimp = 0;
+var numSnails = 0;
+var numFish = 0;
+var numSmallShrimp = 0;
+var numJavaMoss = 0;
+var numJavaFern = 0;
+var numMossBalls = 0;
 
 Game.prototype = {
 	
@@ -28,6 +39,11 @@ Game.prototype = {
     	game.load.image('deadBrineShrimp', 'img/deadBrineShrimpSprite.png');
     	game.load.image('smallShrimp', 'img/smallshrimp.png');
     	game.load.image('algaeSprite', 'img/algaeSprite.png');
+    	game.load.image('smallSnail', 'img/smallSnailSprite.png');
+    	game.load.image('smallFish', 'img/smallFishSprite.png');
+    	game.load.image('javaFern', 'img/javaFernSprite.png');
+    	game.load.image('javaMoss', 'img/JavaMossSprite.png');
+    	game.load.image('mossBall', 'img/mossBallSprite.png');
 	},
 
 	create() {
@@ -36,6 +52,11 @@ Game.prototype = {
 		DeadBrineShrimpsGroup = game.add.group();
 		AlgaeGroup = game.add.group();
 		DeadAlgaeGroup = game.add.group();
+		SnailGroup = game.add.group();
+		FishGroup = game.add.group();
+		JavaFernGroup = game.add.group();
+		JavaMossGroup = game.add.group();
+		MossBallGroup = game.add.group();
 
 
 		/* Create the map that is used for the fish tank */
@@ -53,7 +74,7 @@ Game.prototype = {
 
 		var AddThingsText = new SlickUI.Element.Text(0,0, "Flora And Fauna", 12);
 		var FloraText = new SlickUI.Element.Text(0,40, "Flora", 14);
-		var FaunaText = new SlickUI.Element.Text(0,120, "Fauna", 14);
+		var FaunaText = new SlickUI.Element.Text(0,250, "Fauna", 14);
 		var addAlgaeButton, addBrineShrimpButton, resumeButton, pauseButton;
 		
 		panelLeft.add(AddThingsText);
@@ -66,11 +87,41 @@ Game.prototype = {
 		});
 		addAlgaeButton.add(new SlickUI.Element.Text(0,0, "Add Algae")).center();
 
-		panelLeft.add(addBrineShrimpButton = new SlickUI.Element.Button(0,150, 120, 40));
+		panelLeft.add(addJavaMossButton = new SlickUI.Element.Button(0,115, 120, 40));
+		addJavaMossButton.events.onInputUp.add(function () {
+			addJavaMoss();
+		});
+		addJavaMossButton.add(new SlickUI.Element.Text(0,0, "Add Java Moss", 10)).center();
+
+		panelLeft.add(addJavaFernButton = new SlickUI.Element.Button(0,160, 120, 40));
+		addJavaFernButton.events.onInputUp.add(function () {
+			addJavaFern();
+		});
+		addJavaFernButton.add(new SlickUI.Element.Text(0,0, "Add Java Fern", 10)).center();
+
+		panelLeft.add(addMossBallButton = new SlickUI.Element.Button(0,205, 120, 40));
+		addMossBallButton.events.onInputUp.add(function () {
+			addMossBall();
+		});
+		addMossBallButton.add(new SlickUI.Element.Text(0,0, "Add Java Fern", 10)).center();
+
+		panelLeft.add(addBrineShrimpButton = new SlickUI.Element.Button(0,270, 120, 40));
 		addBrineShrimpButton.events.onInputUp.add(function () {
 			AddBrineShrimp();
 		});
 		addBrineShrimpButton.add(new SlickUI.Element.Text(0,0, "Add Brine Shrimp", 10)).center();
+
+		panelLeft.add(addSnailButton = new SlickUI.Element.Button(0,315, 120, 40));
+		addSnailButton.events.onInputUp.add(function () {
+			addSnail();
+		});
+		addSnailButton.add(new SlickUI.Element.Text(0,0, "Add snail", 10)).center();
+
+		panelLeft.add(addFishButton = new SlickUI.Element.Button(0,360, 120, 40));
+		addFishButton.events.onInputUp.add(function () {
+			addFish();
+		});
+		addFishButton.add(new SlickUI.Element.Text(0,0, "Add Fish", 10)).center();
 
 
 		/* THE MENU ON THE RIGHT SIDE, resources and stuff*/
@@ -326,7 +377,7 @@ function BrineShrimpIncreased(){
 function AddBrineShrimp(){
 	gold -= 10;
 	MoneyText.value = "Gold: " + gold + "g";
-	BrineShrimpsGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallShrimp');
+	BrineShrimpsGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'brineShrimp');
 	console.log("Added a brine shrimp");
 	numShrimp += 1;
 }
@@ -364,25 +415,25 @@ function UpdateBrineShrimpGrowth(){
 					//console.log("tempshrimp added");
 					if(n == 1){
 						if(item.x > 234){ //230 + 4?
-							tempShrimpGroup.create(item.x - 4, item.y, 'smallShrimp');
+							tempShrimpGroup.create(item.x - 4, item.y, 'brineShrimp');
 							BrineShrimpIncreased();
 						}
 					}
 					else if(n == 2){
 						if(item.x < 665){ //673 - 8?
-							tempShrimpGroup.create(item.x + 4, item.y, 'smallShrimp');
+							tempShrimpGroup.create(item.x + 4, item.y, 'brineShrimp');
 							BrineShrimpIncreased();
 						}
 					}
 					else if(n == 3){
 						if(item.y > 38){ //34 + 4?
-							tempShrimpGroup.create(item.x, item.y - 4, 'smallShrimp');
+							tempShrimpGroup.create(item.x, item.y - 4, 'brineShrimp');
 							BrineShrimpIncreased();
 						}
 					}
 					else{
 						if(item.y < 469){ //477 - 8?
-							tempShrimpGroup.create(item.x, item.y + 4, 'smallShrimp');
+							tempShrimpGroup.create(item.x, item.y + 4, 'brineShrimp');
 							BrineShrimpIncreased();
 						}
 					}
@@ -403,7 +454,7 @@ function UpdateBrineShrimpGrowth(){
 	tempShrimpGroup.forEach( function(item){
 		if(item != null){
 			//console.log("bsg create, tempshrimp remove");
-			BrineShrimpsGroup.create(item.x, item.y, 'smallShrimp');
+			BrineShrimpsGroup.create(item.x, item.y, 'brineShrimp');
 			//tempShrimpGroup.remove(item);
 		}
 	});
@@ -454,7 +505,11 @@ function UpdateBrineShrimpMovement(){
 
 //TODO add function for snails
 function addSnail(){
-
+	gold -= 20;
+	MoneyText.value = "Gold: " + gold + "g";
+	SnailGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallSnail');
+	console.log("Added a small snail");
+	numSnails += 1;
 }
 function updateSnailMovement(){
 
@@ -465,7 +520,11 @@ function updateSnailGrowth(){
 
 //TODO add function for small fish
 function addFish(){
-
+	gold -= 50;
+	MoneyText.value = "Gold: " + gold + "g";
+	SnailGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallFish');
+	console.log("Added a small fish");
+	numFish += 1;
 }
 function updateFishMovement(){
 
@@ -476,7 +535,11 @@ function updateFishGrowth(){
 
 //TODO add functions for small shrimp
 function addShrimp(){
-
+	gold -= 10;
+	MoneyText.value = "Gold: " + gold + "g";
+	SmallShrimpGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallShrimp');
+	console.log("Added a small shrimp");
+	numSmallShrimp += 1;
 }
 function updateSmallShrimpMovement(){
 
@@ -488,7 +551,11 @@ function updateSmallShrimpGrowth(){
 
 //TODO add function for JavaMoss
 function addJavaMoss(){
-
+	gold -= 10;
+	MoneyText.value = "Gold: " + gold + "g";
+	JavaMossGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'javaMoss');
+	console.log("Added some javaMoss");
+	numJavaMoss += 1;
 }
 function updateJavaMossGrowth(){
 
@@ -496,7 +563,11 @@ function updateJavaMossGrowth(){
 
 //TODO add functions for JavaFerns
 function addJavaFern(){
-
+	gold -= 10;
+	MoneyText.value = "Gold: " + gold + "g";
+	JavaFernGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'javaFern');
+	console.log("Added some java fern");
+	numJavaFern += 1;
 }
 function updateJavaFernGrowth(){
 
@@ -504,7 +575,11 @@ function updateJavaFernGrowth(){
 
 //TODO add function for MossBalls
 function addMossBall(){
-
+	gold -= 50;
+	MoneyText.value = "Gold: " + gold + "g";
+	MossBallGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'mossBall');
+	console.log("Added a moss ball");
+	numMossBalls += 1;
 }
 function updateMossBallGrowth(){
 
