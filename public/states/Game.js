@@ -193,6 +193,7 @@ function UpdateDay(){
 
 	UpdateAlgaeGrowth();
 	UpdateBrineShrimpGrowth();
+	UpdateMossBallGrowth();
 	OxygenText.value = "Oxygen: " + O2;
 	CO2Text.value = "CO2: " + CO2;
 	//console.log(O2);
@@ -558,7 +559,19 @@ function addJavaMoss(){
 	numJavaMoss += 1;
 }
 function updateJavaMossGrowth(){
-
+	JavaMossGroup.forEach( function(item){
+		if(item != null){
+			if(CO2 >= 10){
+				CO2 -= 10;
+				O2 += 10;
+			}
+			else{
+				console.log("java moss died");
+				numJavaMoss -= 1;
+				JavaMossGroup.remove(item);
+			}
+		}
+	});
 }
 
 //TODO add functions for JavaFerns
@@ -570,7 +583,19 @@ function addJavaFern(){
 	numJavaFern += 1;
 }
 function updateJavaFernGrowth(){
-
+	JavaFernGroup.forEach( function(item){
+		if(item != null){
+			if(CO2 >= 10){
+				CO2 -= 10;
+				O2 += 10;
+			}
+			else{
+				console.log("java fern died");
+				numJavaFern -= 1;
+				JavaFernGroup.remove(item);
+			}
+		}
+	});
 }
 
 //TODO add function for MossBalls
@@ -581,8 +606,23 @@ function addMossBall(){
 	console.log("Added a moss ball");
 	numMossBalls += 1;
 }
-function updateMossBallGrowth(){
-
+function UpdateMossBallGrowth(){
+	MossBallGroup.forEach( function(item){
+		if(item != null){
+			if(CO2 >= 20){
+				CO2 -= 20;
+				O2 += 20;
+			}
+			else if( CO2 > 0 && CO2 < 20){
+				console.log("mossball does nothing");
+			}
+			else{
+				console.log("mossball died");
+				MossBallGroup.remove(item);
+				numMossBalls -= 1;
+			}
+		}
+	});
 }
 
 //TODO add functions for pause and resume
