@@ -103,7 +103,7 @@ Game.prototype = {
 		addMossBallButton.events.onInputUp.add(function () {
 			addMossBall();
 		});
-		addMossBallButton.add(new SlickUI.Element.Text(0,0, "Add Java Fern", 10)).center();
+		addMossBallButton.add(new SlickUI.Element.Text(0,0, "Add Moss Ball", 10)).center();
 
 		panelLeft.add(addBrineShrimpButton = new SlickUI.Element.Button(0,270, 120, 40));
 		addBrineShrimpButton.events.onInputUp.add(function () {
@@ -553,7 +553,7 @@ function updateSmallShrimpGrowth(){
 function addJavaMoss(){
 	gold -= 10;
 	MoneyText.value = "Gold: " + gold + "g";
-	JavaMossGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'javaMoss');
+	JavaMossGroup.create(240 + Math.random() * 390, 439, 'javaMoss');
 	console.log("Added some javaMoss");
 	numJavaMoss += 1;
 }
@@ -565,7 +565,7 @@ function updateJavaMossGrowth(){
 function addJavaFern(){
 	gold -= 10;
 	MoneyText.value = "Gold: " + gold + "g";
-	JavaFernGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'javaFern');
+	JavaFernGroup.create(240 + Math.random() * 390, 419, 'javaFern');
 	console.log("Added some java fern");
 	numJavaFern += 1;
 }
@@ -577,7 +577,7 @@ function updateJavaFernGrowth(){
 function addMossBall(){
 	gold -= 50;
 	MoneyText.value = "Gold: " + gold + "g";
-	MossBallGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'mossBall');
+	MossBallGroup.create(240 + Math.random() * 390, 440, 'mossBall');
 	console.log("Added a moss ball");
 	numMossBalls += 1;
 }
