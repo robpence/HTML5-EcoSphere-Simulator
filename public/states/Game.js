@@ -9,10 +9,8 @@ var CO2 = 1000;
 var O2 = 1000;
 var gold = 500;
 var shrimpCounter = 7;
-var BrineShrimpsGroup;
-var DeadBrineShrimpsGroup;
-var DeadAlgaeGroup;
-var AlgaeGroup;
+var BrineShrimpsGroup, DeadBrineShrimpsGroup;
+var DeadAlgaeGroup, AlgaeGroup;
 var SnailGroup;
 var FishGroup;
 var JavaFernGroup;
@@ -276,91 +274,6 @@ function UpdateAlgaeGrowth(){
 	console.log(numAlgae);
 }
 
-/*
-function UpdateAlgaeGrowth(){
-	//loop through entire map
-
-	for(var y = 0; y < map.height; ++y){
-		for(var x = 0; x < map.width; ++x){      
-			
-			var tile = map.getTile(x, y, layer);
-			//console.log(tile);
-			if(tile != null){	//check if tile exists
-
-				if(tile.index == 2){	//check if tile is deadshrimp
-					CO2 += 1;
-					map.putTile(5, x, y, layer);
-				}
-
-				else if(tile.index == 1){	//check if tile is alive
-					if(CO2 > 0){	//if CO2
-						CO2 -= 1;
-						O2 += 1;
-						if(numAlgae < 6384 && CO2 > 0){
-							//get random number to choose direction?
-							n = Math.floor(Math.random()*(4-1+1)+1);
-							if(n == 1){
-								//if(map.getTile(x-1,y,layer).index == 5 && map.getTile(x-1,y,layer).index != 1){
-								if(map.getTile(x-1,y,layer).index == 5){
-									map.putTile(1, x-1, y, layer);
-									AlgaeIncreased();
-								}
-							}else if(n == 2){
-								if(map.getTile(x+1,y,layer).index == 5){
-									map.putTile(1, x+1, y, layer);
-									AlgaeIncreased();
-								}
-							}else if(n == 3){
-								if(map.getTile(x,y-1,layer).index == 5){
-									map.putTile(1, x, y-1, layer);
-									AlgaeIncreased();
-								}
-							}else{
-								if(map.getTile(x,y+1,layer).index == 5){
-									map.putTile(1, x, y+1, layer);
-									AlgaeIncreased();
-								}
-							}
-						}
-					}
-					else if(CO2 <= 0){	//if no CO2
-						map.putTile(2, x, y, layer);
-						numAlgae -= 1;
-					}
-				}
-			}
-
-		}
-	}
-
-	console.log(numAlgae);
-}
-*/
-/*
-function AddAlgae(){
-	maxHeight = map.height;
-	maxWidth = map.width;
-	minHeight = 1;
-	minWidth = 1;
-	isAlgaeAdded = false;
-	while(isAlgaeAdded == false){
-		y = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-		x = Math.floor(Math.random()*(maxWidth-minWidth+1)+minWidth);
-
-		var tile = map.getTile(x, y, layer);
-
-		if(tile.index == 5 && gold >= 5){
-			map.putTile(1, x, y, layer);
-			isAlgaeAdded = true;
-			gold -= 5;
-			MoneyText.value = "Gold: " + gold + "g";
-			numAlgae += 1;
-		}
-	}
-	//console.log("Added some algae");
-}
-*/
-
 function AddAlgae(){
 	gold -= 5;
 	MoneyText.value = "Gold: " + gold + "g";
@@ -503,6 +416,7 @@ function UpdateBrineShrimpMovement(){
 }
 
 /* ---------- TODO Functions ----------*/
+//they need work still
 
 //TODO add function for snails
 function addSnail(){
