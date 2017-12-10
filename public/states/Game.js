@@ -24,6 +24,7 @@ var numSmallShrimp = 0;
 var numJavaMoss = 0;
 var numJavaFern = 0;
 var numMossBalls = 0;
+var gamePaused = false;
 
 Game.prototype = {
 	
@@ -154,6 +155,12 @@ Game.prototype = {
 			ModifyLoopTimerXXX();
 		});
 		XXXButton.add(new SlickUI.Element.Text(0,0, ">>>")).center();
+
+		panelRight.add(pauseButton = new SlickUI.Element.Button(100,340, 40, 40));
+		pauseButton.events.onInputUp.add(function () {
+			pauseGame();
+		});
+		pauseButton.add(new SlickUI.Element.Text(0,0, "||")).center();
 
 		game.time.events.loop(Phaser.Timer.SECOND * 10, UpdateDay, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.5, UpdateBrineShrimpMovement, this);
@@ -542,6 +549,17 @@ function UpdateMossBallGrowth(){
 //TODO add functions for pause and resume
 function pauseGame(){
 	console.log("TODO pause game");
+	if(!gamePaused){
+		game.time.events.events.forEach( function(item){
+			item.timer.paused = true;
+		});
+		gamePaused = true;
+	}else{
+		game.time.events.events.forEach( function(item){
+			item.timer.paused = false;
+		});
+		gamePaused = false;
+	}
 }
 
 function resumeGame(){
