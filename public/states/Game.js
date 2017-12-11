@@ -562,7 +562,29 @@ function pauseGame(){
 	}
 }
 
-function resumeGame(){
-	console.log("TODO resume game");
-	//a littl late but i wont need this i think
+//TODO figure out what im doing with this menu.
+function openMenu(){
+	//TODO open a menu
+}
+function saveGame(){
+	//figure out how saves will work
+}
+function loadGame(){
+	//figure out loading
+}
+function toTitle(){
+	//quit and go to title screen
+}
+function displayBeastiary(){
+	//I want to add a beastiary with educational facts about the different organisms
+	//so I'll have to figure out how to do that.
+}
+
+//TODO add sound and sound functions
+function muteSound(){
+	//TODO mute sound
+}
+
+function unmuteSound(){
+	//TODO unmute sound
 }
