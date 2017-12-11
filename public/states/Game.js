@@ -564,4 +564,5 @@ function pauseGame(){
 
 function resumeGame(){
 	console.log("TODO resume game");
+	//a littl late but i wont need this i think
 }
