@@ -25,6 +25,7 @@ var numJavaMoss = 0;
 var numJavaFern = 0;
 var numMossBalls = 0;
 var gamePaused = false;
+var graphics;
 
 Game.prototype = {
 	
@@ -56,6 +57,7 @@ Game.prototype = {
 		JavaFernGroup = game.add.group();
 		JavaMossGroup = game.add.group();
 		MossBallGroup = game.add.group();
+		graphics = game.add.graphics(0, 0);
 
 
 		/* Create the map that is used for the fish tank */
@@ -165,9 +167,20 @@ Game.prototype = {
 		game.time.events.loop(Phaser.Timer.SECOND * 10, UpdateDay, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.5, UpdateBrineShrimpMovement, this);
 
+		window.onkeydown = function() {
+            if (game.input.keyboard.event.keyCode == 80){
+                if(game.paused === false){
+                	openMenu();
+                }else{
+                	closeMenu();
+                }
+            }
+        }
+
 	},
 
 	update() {
+
 	}, 
 
 	render() {
@@ -564,8 +577,18 @@ function pauseGame(){
 
 //TODO figure out what im doing with this menu.
 function openMenu(){
-	//TODO open a menu
+    // When the paus button is pressed, we pause the game
+    game.paused = true;
+
+    // Then add the menu
+    graphics.lineStyle(2, 0x0000FF, 1);
+    graphics.drawRect(game.width/2, game.height/2, 100, 100);
 }
+function closeMenu(){
+	game.paused = false;
+	graphics.clear();
+}
+
 function saveGame(){
 	//figure out how saves will work
 }
@@ -574,6 +597,7 @@ function loadGame(){
 }
 function toTitle(){
 	//quit and go to title screen
+	game.state.start("GameMenu");
 }
 function displayBeastiary(){
 	//I want to add a beastiary with educational facts about the different organisms
