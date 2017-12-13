@@ -16,6 +16,7 @@ var FishGroup;
 var JavaFernGroup;
 var JavaMossGroup;
 var MossBallGroup;
+var MainMenuGroup;
 var numAlgae = 0;
 var numShrimp = 0;
 var numSnails = 0;
@@ -44,6 +45,9 @@ Game.prototype = {
     	game.load.image('javaFern', 'img/javaFernSprite.png');
     	game.load.image('javaMoss', 'img/JavaMossSprite.png');
     	game.load.image('mossBall', 'img/mossBallSprite.png');
+    	game.load.image('menuPanel', 'img/menuPanel1.png');
+    	game.load.image('menuPanel2', 'img/menuPanel2.png');
+    	game.load.image('menuButton', 'img/menuButton1.png');
 	},
 
 	create() {
@@ -57,6 +61,7 @@ Game.prototype = {
 		JavaFernGroup = game.add.group();
 		JavaMossGroup = game.add.group();
 		MossBallGroup = game.add.group();
+		MainMenuGroup = game.add.group();
 		graphics = game.add.graphics(0, 0);
 
 
@@ -575,18 +580,85 @@ function pauseGame(){
 	}
 }
 
-//TODO figure out what im doing with this menu.
 function openMenu(){
-    // When the paus button is pressed, we pause the game
+
     game.paused = true;
 
-    // Then add the menu
-    graphics.lineStyle(2, 0x0000FF, 1);
-    graphics.drawRect(game.width/2, game.height/2, 100, 100);
+    menu = game.add.sprite(game.width/2, game.height/2, 'menuPanel2');
+    menu.anchor.setTo(0.5, 0.5);
+    MainMenuGroup.add(menu);
+
+
+    button1 = game.add.sprite(350, 70, 'menuButton');
+    button1.inputEnabled = true;
+    button1Label = game.add.text(button1.position.x + 10, button1.position.y + 10, 'Resume Game', { font: '24px Arial', fill: '#fff' });
+    button1.events.onInputUp.add(function () {
+        closeMenu();
+    });
+    MainMenuGroup.add(button1);
+    MainMenuGroup.add(button1Label);
+
+    button2 = game.add.sprite(350, 130, 'menuButton');
+    button2.inputEnabled = true;
+    button2Label = game.add.text(button2.position.x + 10, button2.position.y + 10, 'Beastiary', { font: '24px Arial', fill: '#fff' });
+    button2.events.onInputUp.add(function () {
+        closeMenu();
+        openBeastiary();
+    });
+    MainMenuGroup.add(button2);
+    MainMenuGroup.add(button2Label);
+
+    button3 = game.add.sprite(350, 190, 'menuButton');
+    button3.inputEnabled = true;
+    button3Label = game.add.text(button3.position.x + 10, button3.position.y + 10, 'Settings', { font: '24px Arial', fill: '#fff' });
+    button3.events.onInputUp.add(function () {
+        closeMenu();
+        openSettings();
+    });
+    MainMenuGroup.add(button3);
+    MainMenuGroup.add(button3Label);
+
+    button4 = game.add.sprite(350, 250, 'menuButton');
+    button4.inputEnabled = true;
+    button4Label = game.add.text(button4.position.x + 10, button4.position.y + 10, 'Save Game', { font: '24px Arial', fill: '#fff' });
+    button4.events.onInputUp.add(function () {
+        closeMenu();
+        openSaveMenu();
+    });
+    MainMenuGroup.add(button4);
+    MainMenuGroup.add(button4Label);
+
+    button5 = game.add.sprite(350, 310, 'menuButton');
+    button5.inputEnabled = true;
+    button5Label = game.add.text(button5.position.x + 10, button5.position.y + 10, 'Load Game', { font: '24px Arial', fill: '#fff' });
+    button5.events.onInputUp.add(function () {
+        closeMenu();
+        openLoadMenu();
+    });
+    MainMenuGroup.add(button5);
+    MainMenuGroup.add(button5Label);
+
+    button6 = game.add.sprite(350, 370, 'menuButton');
+    button6.inputEnabled = true;
+    button6Label = game.add.text(button6.position.x + 10, button6.position.y + 10, 'Quit to Title', { font: '24px Arial', fill: '#fff' });
+    button6.events.onInputUp.add(function () {
+        closeMenu();
+        goToTitle();
+    });
+    MainMenuGroup.add(button6);
+    MainMenuGroup.add(button6Label);
+
 }
+
 function closeMenu(){
 	game.paused = false;
-	graphics.clear();
+	//menu.destroy();
+	MainMenuGroup.removeAll();
+	destroyMenuItems();
+}
+//helper function that removes the menu sprites, called by closeMenu()
+function destroyMenuItems(){
+	//destroy all the menu things
 }
 
 function saveGame(){
@@ -595,7 +667,7 @@ function saveGame(){
 function loadGame(){
 	//figure out loading
 }
-function toTitle(){
+function goToTitle(){
 	//quit and go to title screen
 	game.state.start("GameMenu");
 }
@@ -611,4 +683,16 @@ function muteSound(){
 
 function unmuteSound(){
 	//TODO unmute sound
+}
+
+function openBeastiary(){
+	//TODO fill this out
+}
+
+function openSettings(){
+	//TODO make settings menu
+}
+
+function openSaveMenu(){
+	//TODO make save menu
 }
