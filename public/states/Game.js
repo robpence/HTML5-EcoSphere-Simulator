@@ -585,6 +585,17 @@ function pauseGame(){
 	}
 }
 
+/**
+*
+*
+*
+*	All of the below functions are for in game menus.
+*	
+*
+*
+*
+**/
+
 function openMenu(){
 
     game.paused = true;
@@ -609,6 +620,7 @@ function openMenu(){
     button2.events.onInputUp.add(function () {
         closeMenu();
         openBeastiary();
+        console.log('beastiary clicked');
     });
     MainMenuGroup.add(button2);
     MainMenuGroup.add(button2Label);
@@ -617,7 +629,7 @@ function openMenu(){
     button3.inputEnabled = true;
     button3Label = game.add.text(button3.position.x + 10, button3.position.y + 10, 'Settings', { font: '24px Arial', fill: '#fff' });
     button3.events.onInputUp.add(function () {
-        closeMenu();
+        closeMenuOnly();
         openSettings();
     });
     MainMenuGroup.add(button3);
@@ -653,98 +665,97 @@ function openMenu(){
     MainMenuGroup.add(button6);
     MainMenuGroup.add(button6Label);
 
+    game.world.bringToTop(MainMenuGroup);
+
 }
 
 function closeMenu(){
 	game.paused = false;
 	MainMenuGroup.removeAll();
+	SettingsMenuGroup.removeAll();
+}
+function closeMenuOnly(){
+	MainMenuGroup.removeAll();
 }
 
-function saveGame(){
-	//figure out how saves will work
-	console.log('TODO Open a save menu to let players save the game');
-}
-function loadGame(){
-	//figure out loading
-	console.log('TODO Open a load menu to let players load the game');
-}
 function goToTitle(){
 	//quit and go to title screen
 	console.log('TODO add a thing that says are you sure');
 	game.state.start("GameMenu");
 }
-function displayBeastiary(){
-	//I want to add a beastiary with educational facts about the different organisms
-	//so I'll have to figure out how to do that.
-	console.log('Coming Soon');
-}
 
-//TODO add sound and sound functions
+//TODO add sound and music functions
 function muteSound(){
 	//TODO mute sound
 	soundMuted = true;
 	muteSoundBox.visible = false;
 	muteSoundBox2.visible = true;
 }
-
 function unmuteSound(){
 	//TODO unmute sound
 	soundMuted = false;
 	muteSoundBox.visible = true;
 	muteSoundBox2.visible = false;
 }
-//TODO add sound and sound functions
 function muteMusic(){
 	//TODO mute sound
 	musicMuted = true;
+	muteMusicBox.visible = false;
+	muteMusicBox2.visible = true;
 }
-
 function unmuteMusic(){
 	//TODO unmute sound
 	musicMuted = false;
-}
-
-function openBeastiary(){
-	//TODO fill this out
+	muteMusicBox.visible = true;
+	muteMusicBox2.visible = false;
 }
 
 function openSettings(){
 	//TODO make settings menu
-	game.paused = true;
 	settingsMenu = game.add.sprite(game.width/2, game.height/2, 'menuPanel');
     settingsMenu.anchor.setTo(0.5, 0.5);
     SettingsMenuGroup.add(settingsMenu);
 
     settingsLabel = game.add.text(settingsMenu.position.x - 50, settingsMenu._bounds.y + 60, 'Settings', { font: '30px Arial', fill: '#fff' });
   	SettingsMenuGroup.add(settingsLabel);
-  	backLabel = game.add.text(settingsMenu.position.x - 50, settingsMenu._bounds.y + 260, 'back', { font: '28px Arial', fill: '#fff' });
+
+  	backLabel = game.add.text(settingsMenu.position.x - 60, settingsMenu._bounds.y + 400, 'back', { font: '28px Arial', fill: '#fff' });
+  	backLabel.inputEnabled = true;
   	backLabel.events.onInputUp.add(function(){
   		closeSettingsMenu();
-  		openMenu();
   	});
   	SettingsMenuGroup.add(backLabel);
+
   	muteSoundBox = game.add.sprite(settingsMenu._bounds.x + 160, settingsMenu._bounds.y + 120, 'checkBoxEmpty');
+  	muteSoundBox.inputEnabled = true;
   	muteSoundBox.events.onInputUp.add(function () {
         muteSound();
         console.log('mute sound clicked');
     });
+
   	muteMusicBox = game.add.sprite(settingsMenu._bounds.x + 160, settingsMenu._bounds.y + 170, 'checkBoxEmpty');
+  	muteMusicBox.inputEnabled = true;
   	muteMusicBox.events.onInputUp.add(function () {
         muteMusic();
         console.log('mute music clicked');
     });
+
   	muteSoundBox2 = game.add.sprite(settingsMenu._bounds.x + 160, settingsMenu._bounds.y + 120, 'checkBoxFilled');
+  	muteSoundBox2.inputEnabled = true;
   	muteSoundBox2.events.onInputUp.add(function () {
         unmuteSound();
         console.log('unmute sound clicked');
     });
     muteSoundBox2.visible = false;
+
   	muteMusicBox2 = game.add.sprite(settingsMenu._bounds.x + 160, settingsMenu._bounds.y + 170, 'checkBoxFilled');
   	muteMusicBox2.events.onInputUp.add(function () {
         unmuteMusic();
         console.log('unmute music clicked');
     });
+    muteMusicBox2.inputEnabled = true;
     muteMusicBox2.visible = false;
+
   	SettingsMenuGroup.add(muteMusicBox);
   	SettingsMenuGroup.add(muteMusicBox2);
   	SettingsMenuGroup.add(muteSoundBox);
@@ -755,12 +766,12 @@ function openSettings(){
   	SettingsMenuGroup.add(muteMusicLabel);
   	SettingsMenuGroup.add(muteSoundBoxLabel);
 
-  	//game.world.bringToTop(SettingsMenuGroup);
+  	game.world.bringToTop(SettingsMenuGroup);
 }
 
 function closeSettingsMenu(){
 	SettingsMenuGroup.removeAll();
-	game.paused = false;
+	openMenu();
 }
 
 function openSaveMenu(){
@@ -769,4 +780,16 @@ function openSaveMenu(){
 }
 function openLoadMenu(){
 	//TODO make load menu
+}
+
+function openBeastiary(){
+	//TODO fill this out
+}
+function saveGame(){
+	//figure out how saves will work
+	console.log('TODO Open a save menu to let players save the game');
+}
+function loadGame(){
+	//figure out loading
+	console.log('TODO Open a load menu to let players load the game');
 }
