@@ -168,7 +168,13 @@ Game.prototype = {
 		});
 		XXXButton.add(new SlickUI.Element.Text(0,0, ">>>")).center();
 
-		panelRight.add(pauseButton = new SlickUI.Element.Button(100,340, 40, 40));
+		panelRight.add(menuButton = new SlickUI.Element.Button(10,380, 80, 40));
+		menuButton.events.onInputUp.add(function () {
+			openMenu();
+		});
+		menuButton.add(new SlickUI.Element.Text(0,0, "Menu")).center();
+
+		panelRight.add(pauseButton = new SlickUI.Element.Button(100,380, 40, 40));
 		pauseButton.events.onInputUp.add(function () {
 			pauseGame();
 		});
