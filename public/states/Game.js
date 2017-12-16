@@ -16,7 +16,7 @@ var FishGroup;
 var JavaFernGroup;
 var JavaMossGroup;
 var MossBallGroup;
-var MainMenuGroup, SettingsMenuGroup;
+var MainMenuGroup, SettingsMenuGroup, beastMenuGroup;
 var numAlgae = 0;
 var numShrimp = 0;
 var numSnails = 0;
@@ -790,6 +790,25 @@ function openLoadMenu(){
 
 function openBeastiary(){
 	//TODO fill this out
+	beastMenu = game.add.sprite(game.width/2, game.height/2, 'menuPanel');
+    beastMenu.anchor.setTo(0.5, 0.5);
+    beastMenuGroup.add(beastMenu);
+
+    beastLabel = game.add.text(beastMenu.position.x - 50, beastMenu._bounds.y + 60, 'Beastiary', { font: '30px Arial', fill: '#fff' });
+  	beastMenuGroup.add(beastLabel);
+
+  	backLabel2 = game.add.text(beastMenu.position.x - 60, beastMenu._bounds.y + 400, 'Back', { font: '28px Arial', fill: '#fff' });
+  	backLabel2.inputEnabled = true;
+  	backLabel2.events.onInputUp.add(function(){
+  		closeBeastsMenu();
+  	});
+  	beastMenuGroup.add(backLabel2);
+
+    game.world.bringToTop(beastMenuGroup);
+}
+function closeBeastsMenu(){
+	beastMenuGroup.removeAll();
+	openMenu();
 }
 function saveGame(){
 	//figure out how saves will work
