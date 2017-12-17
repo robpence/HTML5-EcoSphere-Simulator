@@ -12,10 +12,10 @@ var shrimpCounter = 7;
 var BrineShrimpsGroup, DeadBrineShrimpsGroup;
 var DeadAlgaeGroup, AlgaeGroup;
 var SnailGroup;
-var FishGroup;
+var FishGroup, DeadFishGroup;
 var JavaFernGroup;
 var JavaMossGroup;
-var MossBallGroup;
+var MossBallGroup, DeadMossBallGroup;
 var MainMenuGroup, SettingsMenuGroup, beastMenuGroup;
 var numAlgae = 0;
 var numShrimp = 0;
@@ -47,6 +47,7 @@ Game.prototype = {
     	game.load.image('javaFern', 'img/javaFernSprite.png');
     	game.load.image('javaMoss', 'img/JavaMossSprite.png');
     	game.load.image('mossBall', 'img/mossBallSprite.png');
+    	game.load.image('deadMossBall', 'img/deadMossBall.png');
     	game.load.image('menuPanel', 'img/menuPanel1.png');
     	game.load.image('menuPanel2', 'img/menuPanel2.png');
     	game.load.image('menuButton', 'img/menuButton1.png');
@@ -62,9 +63,11 @@ Game.prototype = {
 		DeadAlgaeGroup = game.add.group();
 		SnailGroup = game.add.group();
 		FishGroup = game.add.group();
+		DeadFishGroup = game.add.group();
 		JavaFernGroup = game.add.group();
 		JavaMossGroup = game.add.group();
 		MossBallGroup = game.add.group();
+		DeadMossBallGroup = game.add.group();
 		MainMenuGroup = game.add.group();
 		SettingsMenuGroup = game.add.group();
 		graphics = game.add.graphics(0, 0);
@@ -568,6 +571,7 @@ function UpdateMossBallGrowth(){
 			}
 			else{
 				console.log("mossball died");
+				DeadMossBallGroup.create(item.x, item.y, 'deadMossBall');
 				MossBallGroup.remove(item);
 				numMossBalls -= 1;
 			}
