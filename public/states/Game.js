@@ -185,6 +185,7 @@ Game.prototype = {
 
 		game.time.events.loop(Phaser.Timer.SECOND * 10, UpdateDay, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.5, UpdateBrineShrimpMovement, this);
+		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateFishMovement, this);
 
 		window.onkeydown = function() {
             if (game.input.keyboard.event.keyCode == 80){
@@ -476,11 +477,43 @@ function updateSnailGrowth(){
 function addFish(){
 	gold -= 50;
 	MoneyText.value = "Gold: " + gold + "g";
-	SnailGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallFish');
+	FishGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallFish');
 	console.log("Added a small fish");
 	numFish += 1;
 }
 function updateFishMovement(){
+
+	FishGroup.forEach( function(item){
+		//console.log(item);
+		if(item != null){
+			n = Math.floor(Math.random()*(4-1+1)+1);
+			if(n == 1){
+				item.x -= 10;
+				if(item.x < 230){ //230 - 0?
+					item.x = 230;
+				}
+			}
+			else if(n == 2){
+				item.x += 10;
+				if(item.x > 653){ //673 - 4?
+					item.x = 653;
+				}
+			}
+			else if(n == 3){
+				item.y -= 10;
+				if(item.y < 34){ //34 - 0?
+					item.y = 34;
+				}
+			}
+			else{
+				item.y += 10;
+				if(item.y > 453){ //477 - 4?
+					item.y = 453;
+				}
+			}
+		}
+
+	});
 
 }
 function updateFishGrowth(){
