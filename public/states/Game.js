@@ -44,6 +44,7 @@ Game.prototype = {
     	game.load.image('algaeSprite', 'img/algaeSprite.png');
     	game.load.image('smallSnail', 'img/smallSnailSprite.png');
     	game.load.image('smallFish', 'img/smallFishSprite.png');
+    	game.load.image('smallFishLeft', 'img/smallFishSpriteLeft.png');
     	game.load.image('javaFern', 'img/javaFernSprite.png');
     	game.load.image('javaMoss', 'img/JavaMossSprite.png');
     	game.load.image('mossBall', 'img/mossBallSprite.png');
@@ -492,11 +493,19 @@ function updateFishMovement(){
 				if(item.x < 230){ //230 - 0?
 					item.x = 230;
 				}
+				if(item.key == 'smallFish'){
+					FishGroup.create(item.x, item.y, 'smallFishLeft');
+					FishGroup.remove(item);
+				}
 			}
 			else if(n == 2){
 				item.x += 10;
 				if(item.x > 653){ //673 - 4?
 					item.x = 653;
+				}
+				if(item.key == 'smallFishLeft'){
+					FishGroup.create(item.x, item.y, 'smallFish');
+					FishGroup.remove(item);
 				}
 			}
 			else if(n == 3){
