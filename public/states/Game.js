@@ -484,6 +484,8 @@ function addFish(){
 }
 function updateFishMovement(){
 
+	//Fish are kinda dumb but I think I like it like this.
+	//TODO fix this later
 	FishGroup.forEach( function(item){
 		//console.log(item);
 		if(item != null){
