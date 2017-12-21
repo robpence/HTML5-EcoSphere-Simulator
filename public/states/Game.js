@@ -187,6 +187,7 @@ Game.prototype = {
 		game.time.events.loop(Phaser.Timer.SECOND * 10, UpdateDay, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.5, UpdateBrineShrimpMovement, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateFishMovement, this);
+		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateSnailMovement, this);
 
 		window.onkeydown = function() {
             if (game.input.keyboard.event.keyCode == 80){
@@ -463,13 +464,57 @@ function UpdateBrineShrimpMovement(){
 function addSnail(){
 	gold -= 20;
 	MoneyText.value = "Gold: " + gold + "g";
-	SnailGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallSnail');
+	SnailGroup.create(430, 460, 'smallSnail');
 	console.log("Added a small snail");
 	numSnails += 1;
 }
 function updateSnailMovement(){
+	var snailsNum = 0;
+	SnailGroup.forEach( function(item){
 
+		snailsNum += 1;
+
+		if(snailsNum % 2 == 0){
+			//Go around the tank moving left
+			if(item.y >= 460){
+				item.rotation = 0;
+				item.x -= 1;
+			}
+			if(item.x <= 249){
+				item.rotation = 1.57;
+				item.y -= 1;
+			}
+			if(item.y <= 53){
+				item.rotation = 3.14;
+				item.x += 1;
+			}
+			if(item.x >= 655){
+				item.rotation = 4.71;
+				item.y += 1;
+			}
+		}else{
+			//move around the tank moving right
+			if(item.y >= 460){
+				item.rotation = 0;
+				item.x += 1;
+			}
+			if(item.x >= 655){
+				item.rotation = 4.71;
+				item.y -= 1;
+			}
+			if(item.y <= 53){
+				item.rotation = 3.14;
+				item.x -= 1;
+			}
+			if(item.x <= 249){
+				item.rotation = 1.57;
+				item.y += 1;
+			}
+		}
+
+	});
 }
+//TODO write a function so that the snails can grow and get bigger.
 function updateSnailGrowth(){
 
 }
