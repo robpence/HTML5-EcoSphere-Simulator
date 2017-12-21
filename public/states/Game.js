@@ -43,6 +43,7 @@ Game.prototype = {
     	game.load.image('smallShrimp', 'img/smallshrimp.png');
     	game.load.image('algaeSprite', 'img/algaeSprite.png');
     	game.load.image('smallSnail', 'img/smallSnailSprite.png');
+    	game.load.image('smallSnailRight', 'img/smallSnailSpriteRight.png');
     	game.load.image('smallFish', 'img/smallFishSprite.png');
     	game.load.image('smallFishLeft', 'img/smallFishSpriteLeft.png');
     	game.load.image('javaFern', 'img/javaFernSprite.png');
@@ -494,6 +495,12 @@ function updateSnailMovement(){
 			}
 		}else{
 			//move around the tank moving right
+			//switch the sprite so that its rotated correctly, I think I could also do this with scale but
+			//for now I don't want to deal with negative scale values
+			if(item.key == 'smallSnail'){
+				SnailGroup.create(item.x, item.y, 'smallSnailRight');
+				SnailGroup.remove(item);
+			}
 			if(item.y >= 460){
 				item.rotation = 0;
 				item.x += 1;
