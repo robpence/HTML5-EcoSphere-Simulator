@@ -6,7 +6,7 @@ var map, bgGroup, layer;
 var day = 0;
 var dayText, OxygenText, CO2Text, MoneyText, ResourcesText;
 var CO2 = 10000;
-var O2 = 10000;
+var O2 = 10;
 var gold = 500;
 var shrimpCounter = 7;
 var BrineShrimpsGroup, DeadBrineShrimpsGroup;
@@ -46,6 +46,7 @@ Game.prototype = {
     	game.load.image('smallSnailRight', 'img/smallSnailSpriteRight.png');
     	game.load.image('smallFish', 'img/smallFishSprite.png');
     	game.load.image('smallFishLeft', 'img/smallFishSpriteLeft.png');
+    	game.load.image('smallFishDead', 'img/smallFishSpriteDead.png');
     	game.load.image('javaFern', 'img/javaFernSprite.png');
     	game.load.image('javaMoss', 'img/JavaMossSprite.png');
     	game.load.image('mossBall', 'img/mossBallSprite.png');
@@ -540,6 +541,12 @@ function updateFishMovement(){
 	//TODO fix this later
 	FishGroup.forEach( function(item){
 		//console.log(item);
+		if(O2 <= 0){
+			//Fish dies from lack of O2
+			DeadFishGroup.create(item.x, item.y, 'smallFishDead');
+			FishGroup.remove(item);
+		}
+
 		if(item != null){
 			n = Math.floor(Math.random()*(4-1+1)+1);
 			if(n == 1){
@@ -578,9 +585,16 @@ function updateFishMovement(){
 
 	});
 
-}
-function updateFishGrowth(){
+	//when a fish is dead, make the body float to the top of the tank.
+	DeadFishGroup.forEach( function(item){
+		if(item.y >= 53){
+			item.y -= 1;
+		}
+	});
 
+}
+//TODO let fish get bigger.
+function updateFishGrowth(){
 }
 
 //TODO add functions for small shrimp
