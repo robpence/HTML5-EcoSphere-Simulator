@@ -244,6 +244,8 @@ function UpdateDay(){
 	UpdateAlgaeGrowth();
 	UpdateBrineShrimpGrowth();
 	UpdateMossBallGrowth();
+	updateSnailGrowth();
+	updateFishGrowth();
 	OxygenText.value = "Oxygen: " + O2;
 	CO2Text.value = "CO2: " + CO2;
 	//console.log(O2);
@@ -533,6 +535,14 @@ function updateSnailMovement(){
 }
 //TODO write a function so that the snails can grow and get bigger.
 function updateSnailGrowth(){
+	SnailGroup.forEach(function (snail){
+		if(O2 >= 0){
+			O2 -= 10;
+			CO2 += 10;
+		}else{
+			//dead snail;
+		}
+	});
 
 }
 
@@ -604,6 +614,12 @@ function updateFishMovement(){
 }
 //TODO let fish get bigger.
 function updateFishGrowth(){
+	if(O2 >= 20){
+		O2 -= 20;
+		CO2 += 20;
+	}else if(O2 <= 0){
+		//dead fish
+	}
 }
 
 //TODO add functions for small shrimp
