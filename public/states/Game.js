@@ -536,11 +536,12 @@ function updateSnailMovement(){
 //TODO write a function so that the snails can grow and get bigger.
 function updateSnailGrowth(){
 	SnailGroup.forEach(function (snail){
-		if(O2 >= 0){
+		if(O2 >= 10){
 			O2 -= 10;
 			CO2 += 10;
 		}else{
 			//dead snail;
+			SnailGroup.remove(snail);
 		}
 	});
 
@@ -614,12 +615,14 @@ function updateFishMovement(){
 }
 //TODO let fish get bigger.
 function updateFishGrowth(){
-	if(O2 >= 20){
-		O2 -= 20;
-		CO2 += 20;
-	}else if(O2 <= 0){
-		//dead fish
-	}
+	FishGroup.forEach( function(fish){
+		if(O2 >= 20){
+			O2 -= 20;
+			CO2 += 20;
+		}else if(O2 <= 0){
+			FishGroup.remove(fish);
+		}
+	});
 }
 
 //TODO add functions for small shrimp
@@ -663,7 +666,14 @@ function updateSmallShrimpMovement(){
 	});
 }
 function updateSmallShrimpGrowth(){
-
+	SmallShrimpGroup.forEach( function(shrimp){
+		if(O2 >= 2){
+			O2 -= 2;
+			CO2 += 2;
+		}else if(O2 <= 0){
+			SmallShrimpGroup.remove(shrimp);
+		}
+	});
 }
 
 
