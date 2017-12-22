@@ -65,6 +65,7 @@ Game.prototype = {
 		AlgaeGroup = game.add.group();
 		DeadAlgaeGroup = game.add.group();
 		SnailGroup = game.add.group();
+		SmallShrimpGroup = game.add.group();
 		FishGroup = game.add.group();
 		DeadFishGroup = game.add.group();
 		JavaFernGroup = game.add.group();
@@ -128,13 +129,19 @@ Game.prototype = {
 		});
 		addBrineShrimpButton.add(new SlickUI.Element.Text(0,0, "Add Brine Shrimp", 10)).center();
 
-		panelLeft.add(addSnailButton = new SlickUI.Element.Button(0,315, 120, 40));
+		panelLeft.add(addSmallShrimpButton = new SlickUI.Element.Button(0,315, 120, 40));
+		addSmallShrimpButton.events.onInputUp.add(function () {
+			addShrimp();
+		});
+		addSmallShrimpButton.add(new SlickUI.Element.Text(0,0, "Add Shrimp", 10)).center();
+
+		panelLeft.add(addSnailButton = new SlickUI.Element.Button(0,360, 120, 40));
 		addSnailButton.events.onInputUp.add(function () {
 			addSnail();
 		});
 		addSnailButton.add(new SlickUI.Element.Text(0,0, "Add snail", 10)).center();
 
-		panelLeft.add(addFishButton = new SlickUI.Element.Button(0,360, 120, 40));
+		panelLeft.add(addFishButton = new SlickUI.Element.Button(0,405, 120, 40));
 		addFishButton.events.onInputUp.add(function () {
 			addFish();
 		});
@@ -190,6 +197,7 @@ Game.prototype = {
 		game.time.events.loop(Phaser.Timer.SECOND * 0.5, UpdateBrineShrimpMovement, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateFishMovement, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateSnailMovement, this);
+		game.time.events.loop(Phaser.Timer.SECOND * 0.5, updateSmallShrimpMovement, this);
 
 		window.onkeydown = function() {
             if (game.input.keyboard.event.keyCode == 80){
@@ -470,6 +478,7 @@ function addSnail(){
 	console.log("Added a small snail");
 	numSnails += 1;
 }
+
 function updateSnailMovement(){
 	var snailsNum = 0;
 	SnailGroup.forEach( function(item){
@@ -606,7 +615,36 @@ function addShrimp(){
 	numSmallShrimp += 1;
 }
 function updateSmallShrimpMovement(){
+	SmallShrimpGroup.forEach( function(item){
+		if(item != null){
+			n = Math.floor(Math.random()*(4-1+1)+1);
+			if(n == 1){
+				item.x -= 6;
+				if(item.x <= 230){
+					item.x = 230;
+				}
+			}
+			else if(n == 2){
+				item.x += 6;
+				if(item.x >= 660){
+					item.x = 660;
+				}
+			}
+			else if(n == 3){
+				item.y -= 6;
+				if(item.y <= 38){
+					item.y = 38;
+				}
+			}
+			else{
+				item.y += 6;
+				if(item.y >= 470){
+					item.y = 470;
+				}
+			}
+		}
 
+	});
 }
 function updateSmallShrimpGrowth(){
 
