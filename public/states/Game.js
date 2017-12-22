@@ -531,7 +531,7 @@ function updateSnailGrowth(){
 function addFish(){
 	gold -= 50;
 	MoneyText.value = "Gold: " + gold + "g";
-	FishGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallFish');
+	FishGroup.create(230 + Math.random() * 380, 40 + Math.random() * 420, 'smallFish');
 	console.log("Added a small fish");
 	numFish += 1;
 }
@@ -551,7 +551,7 @@ function updateFishMovement(){
 			n = Math.floor(Math.random()*(4-1+1)+1);
 			if(n == 1){
 				item.x -= 10;
-				if(item.x < 230){ //230 - 0?
+				if(item.x <= 230){
 					item.x = 230;
 				}
 				if(item.key == 'smallFish'){
@@ -561,8 +561,8 @@ function updateFishMovement(){
 			}
 			else if(n == 2){
 				item.x += 10;
-				if(item.x > 653){ //673 - 4?
-					item.x = 653;
+				if(item.x >= 610){
+					item.x = 610;
 				}
 				if(item.key == 'smallFishLeft'){
 					FishGroup.create(item.x, item.y, 'smallFish');
@@ -571,14 +571,14 @@ function updateFishMovement(){
 			}
 			else if(n == 3){
 				item.y -= 10;
-				if(item.y < 34){ //34 - 0?
-					item.y = 34;
+				if(item.y <= 40){
+					item.y = 40;
 				}
 			}
 			else{
 				item.y += 10;
-				if(item.y > 453){ //477 - 4?
-					item.y = 453;
+				if(item.y >= 460){
+					item.y = 460;
 				}
 			}
 		}
@@ -587,7 +587,7 @@ function updateFishMovement(){
 
 	//when a fish is dead, make the body float to the top of the tank.
 	DeadFishGroup.forEach( function(item){
-		if(item.y >= 53){
+		if(item.y >= 34){
 			item.y -= 1;
 		}
 	});
