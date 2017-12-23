@@ -246,6 +246,9 @@ function UpdateDay(){
 	UpdateMossBallGrowth();
 	updateSnailGrowth();
 	updateFishGrowth();
+	updateJavaMossGrowth();
+	updateJavaFernGrowth();
+	updateSmallShrimpGrowth();
 	OxygenText.value = "Oxygen: " + O2;
 	CO2Text.value = "CO2: " + CO2;
 	//console.log(O2);
