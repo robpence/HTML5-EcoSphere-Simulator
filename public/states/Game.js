@@ -1,6 +1,6 @@
 //the new way everything is a sprite.
 
-var Game = function() {};
+var Game = function(game) {};
 
 var map, bgGroup, layer;
 var day = 0;
@@ -33,6 +33,7 @@ var musicMuted = false;
 Game.prototype = {
 	
 	preload() {
+		game.load.script('Phasetips',  'lib/Phasetips.js');
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
 		slickUI.load('/kenney-theme/kenney.json');
 
@@ -59,7 +60,8 @@ Game.prototype = {
 	},
 
 	create() {
-		game.add.sprite(0, 0, 'bgImage');
+
+		var bg = game.add.sprite(0, 0, 'bgImage');
 		BrineShrimpsGroup = game.add.group();
 		DeadBrineShrimpsGroup = game.add.group();
 		AlgaeGroup = game.add.group();
@@ -75,6 +77,13 @@ Game.prototype = {
 		MainMenuGroup = game.add.group();
 		SettingsMenuGroup = game.add.group();
 		graphics = game.add.graphics(0, 0);
+
+
+		var myTooltip = new Phasetips(game, {
+			targetObject: bg,
+    		context: "Hello tooltip",
+    		strokeColor: 0xff0000
+  		});
 
 
 		/* Create the map that is used for the fish tank */
@@ -198,6 +207,14 @@ Game.prototype = {
 		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateFishMovement, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateSnailMovement, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.5, updateSmallShrimpMovement, this);
+
+		/*
+		var tip1 = new Phasetips({
+    		context: "Add a piece of algae to the tank, costs 1 gold",
+    		strokeColor: 0xff0000,
+    		position: "right"
+  		});
+  		*/
 
 		window.onkeydown = function() {
             if (game.input.keyboard.event.keyCode == 80){
