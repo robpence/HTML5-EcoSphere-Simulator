@@ -79,13 +79,6 @@ Game.prototype = {
 		graphics = game.add.graphics(0, 0);
 
 
-		var myTooltip = new Phasetips(game, {
-			targetObject: bg,
-    		context: "Hello tooltip",
-    		strokeColor: 0xff0000
-  		});
-
-
 		/* Create the map that is used for the fish tank */
 		map = game.add.tilemap('tank');
 		map.addTilesetImage('TankTiles', 'tiles');
@@ -200,6 +193,12 @@ Game.prototype = {
 		pauseButton.events.onInputUp.add(function () {
 			pauseGame();
 		});
+		pauseButton.events.onInputOver.add(function (){
+			console.log('hovering over pause');
+		});
+		pauseButton.events.onInputOut.add(function (){
+			console.log('not hovering over pause');
+		});
 		pauseButton.add(new SlickUI.Element.Text(0,0, "||")).center();
 
 		game.time.events.loop(Phaser.Timer.SECOND * 10, UpdateDay, this);
@@ -208,14 +207,7 @@ Game.prototype = {
 		game.time.events.loop(Phaser.Timer.SECOND * 0.1, updateSnailMovement, this);
 		game.time.events.loop(Phaser.Timer.SECOND * 0.5, updateSmallShrimpMovement, this);
 
-		/*
-		var tip1 = new Phasetips({
-    		context: "Add a piece of algae to the tank, costs 1 gold",
-    		strokeColor: 0xff0000,
-    		position: "right"
-  		});
-  		*/
-
+		
 		window.onkeydown = function() {
             if (game.input.keyboard.event.keyCode == 80){
                 if(game.paused === false){
@@ -229,7 +221,7 @@ Game.prototype = {
 	},
 
 	update() {
-
+		
 	}, 
 
 	render() {
