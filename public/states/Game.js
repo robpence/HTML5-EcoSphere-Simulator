@@ -339,6 +339,15 @@ function createTooltipPosition(mouseX, mouseY){
 	tooltipY = mouseY;
 }
 
+//returns true if the player can afford something of a given cost.
+function playerCanAfford(cost){
+	if(gold - cost >= 0){
+		return true;
+	}else{
+		return false;
+	}
+}
+
 function ModifyLoopTimerX(){
 	game.time.events.events[1].delay = 10000;
 	console.log('10');
@@ -448,11 +457,15 @@ function UpdateAlgaeGrowth(){
 }
 
 function AddAlgae(){
-	gold -= 5;
-	MoneyText.value = "Gold: " + gold + "g";
-	AlgaeGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'algaeSprite');
-	console.log("Added a algae");
-	numAlgae += 1;
+	if(playerCanAfford(5)){
+		gold -= 5;
+		MoneyText.value = "Gold: " + gold + "g";
+		AlgaeGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'algaeSprite');
+		console.log("Added a algae");
+		numAlgae += 1;
+	}else{
+		//alert cant afford 
+	}
 }
 
 
@@ -462,11 +475,15 @@ function BrineShrimpIncreased(){
 }
 
 function AddBrineShrimp(){
-	gold -= 10;
-	MoneyText.value = "Gold: " + gold + "g";
-	BrineShrimpsGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'brineShrimp');
-	console.log("Added a brine shrimp");
-	numShrimp += 1;
+	if(playerCanAfford(5)){
+		gold -= 5;
+		MoneyText.value = "Gold: " + gold + "g";
+		BrineShrimpsGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'brineShrimp');
+		console.log("Added a brine shrimp");
+		numShrimp += 1;
+	}else{
+		//alert cant buy
+	}
 }
 
 function UpdateBrineShrimpGrowth(){
@@ -593,11 +610,15 @@ function UpdateBrineShrimpMovement(){
 
 //TODO add function for snails
 function addSnail(){
-	gold -= 20;
-	MoneyText.value = "Gold: " + gold + "g";
-	SnailGroup.create(430, 460, 'smallSnail');
-	console.log("Added a small snail");
-	numSnails += 1;
+	if(playerCanAfford(20)){
+		gold -= 20;
+		MoneyText.value = "Gold: " + gold + "g";
+		SnailGroup.create(430, 460, 'smallSnail');
+		console.log("Added a small snail");
+		numSnails += 1;
+	}else{
+		//alert cant afford
+	}
 }
 
 function updateSnailMovement(){
@@ -668,11 +689,15 @@ function updateSnailGrowth(){
 
 //TODO add function for small fish
 function addFish(){
-	gold -= 50;
-	MoneyText.value = "Gold: " + gold + "g";
-	FishGroup.create(230 + Math.random() * 380, 40 + Math.random() * 420, 'smallFish');
-	console.log("Added a small fish");
-	numFish += 1;
+	if(playerCanAfford(50)){
+		gold -= 50;
+		MoneyText.value = "Gold: " + gold + "g";
+		FishGroup.create(230 + Math.random() * 380, 40 + Math.random() * 420, 'smallFish');
+		console.log("Added a small fish");
+		numFish += 1;
+	}else{
+		//alert cant afford
+	}
 }
 function updateFishMovement(){
 
@@ -749,11 +774,15 @@ function updateFishGrowth(){
 
 //TODO add functions for small shrimp
 function addShrimp(){
-	gold -= 10;
-	MoneyText.value = "Gold: " + gold + "g";
-	SmallShrimpGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallShrimp');
-	console.log("Added a small shrimp");
-	numSmallShrimp += 1;
+	if(playerCanAfford(10)){
+		gold -= 10;
+		MoneyText.value = "Gold: " + gold + "g";
+		SmallShrimpGroup.create(230 + Math.random() * 440, 36 + Math.random() * 440, 'smallShrimp');
+		console.log("Added a small shrimp");
+		numSmallShrimp += 1;
+	}else{
+		//alert cant afford
+	}
 }
 function updateSmallShrimpMovement(){
 	SmallShrimpGroup.forEach( function(item){
@@ -801,11 +830,15 @@ function updateSmallShrimpGrowth(){
 
 //TODO add function for JavaMoss
 function addJavaMoss(){
-	gold -= 10;
-	MoneyText.value = "Gold: " + gold + "g";
-	JavaMossGroup.create(240 + Math.random() * 390, 439, 'javaMoss');
-	console.log("Added some javaMoss");
-	numJavaMoss += 1;
+	if(playerCanAfford(10)){
+		gold -= 10;
+		MoneyText.value = "Gold: " + gold + "g";
+		JavaMossGroup.create(240 + Math.random() * 390, 439, 'javaMoss');
+		console.log("Added some javaMoss");
+		numJavaMoss += 1;
+	}else{
+		//cant afford
+	}
 }
 function updateJavaMossGrowth(){
 	JavaMossGroup.forEach( function(item){
@@ -825,11 +858,15 @@ function updateJavaMossGrowth(){
 
 //TODO add functions for JavaFerns
 function addJavaFern(){
-	gold -= 10;
-	MoneyText.value = "Gold: " + gold + "g";
-	JavaFernGroup.create(240 + Math.random() * 390, 419, 'javaFern');
-	console.log("Added some java fern");
-	numJavaFern += 1;
+	if(playerCanAfford(10)){
+		gold -= 10;
+		MoneyText.value = "Gold: " + gold + "g";
+		JavaFernGroup.create(240 + Math.random() * 390, 419, 'javaFern');
+		console.log("Added some java fern");
+		numJavaFern += 1;
+	}else{
+		//alert cant afford
+	}
 }
 function updateJavaFernGrowth(){
 	JavaFernGroup.forEach( function(item){
@@ -849,11 +886,15 @@ function updateJavaFernGrowth(){
 
 //TODO add function for MossBalls
 function addMossBall(){
-	gold -= 50;
-	MoneyText.value = "Gold: " + gold + "g";
-	MossBallGroup.create(240 + Math.random() * 390, 440, 'mossBall');
-	console.log("Added a moss ball");
-	numMossBalls += 1;
+	if(playerCanAfford(50)){
+		gold -= 50;
+		MoneyText.value = "Gold: " + gold + "g";
+		MossBallGroup.create(240 + Math.random() * 390, 440, 'mossBall');
+		console.log("Added a moss ball");
+		numMossBalls += 1;
+	}else{
+	//alert cant afford
+	}
 }
 function UpdateMossBallGrowth(){
 	MossBallGroup.forEach( function(item){
