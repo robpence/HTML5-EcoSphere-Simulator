@@ -29,6 +29,9 @@ var gamePaused = false;
 var graphics;
 var soundMuted = false;
 var musicMuted = false;
+var tooltipSprite;
+var tooltipText;
+var tooltipX, tooltipY;
 
 Game.prototype = {
 	
@@ -57,6 +60,7 @@ Game.prototype = {
     	game.load.image('menuButton', 'img/menuButton1.png');
     	game.load.image('checkBoxEmpty', 'img/checkBox.png');
     	game.load.image('checkBoxFilled', 'img/checkBoxFilled.png');
+    	game.load.image('tooltipBox', 'img/toolTipBox.png');
 	},
 
 	create() {
@@ -89,6 +93,8 @@ Game.prototype = {
     	
 		//create menus
 		/* THE MENU ON THE LEFT SIDE, buttons to add things*/
+		var tooltipStyle = { font: "12px Arial", fill: "#000000", wordWrap: true, wordWrapWidth: 150, align: "center", backgroundColor: "#ffffff" };
+
 		var panelLeft;
 		slickUI.add(panelLeft = new SlickUI.Element.Panel(8, 8, 150, game.height - 16));
 
@@ -105,11 +111,31 @@ Game.prototype = {
 		addAlgaeButton.events.onInputUp.add(function () {
 			AddAlgae();
 		});
+		addAlgaeButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Adds some algae\nCosts: 5 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addAlgaeButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
+		});
 		addAlgaeButton.add(new SlickUI.Element.Text(0,0, "Add Algae")).center();
 
 		panelLeft.add(addJavaMossButton = new SlickUI.Element.Button(0,115, 120, 40));
 		addJavaMossButton.events.onInputUp.add(function () {
 			addJavaMoss();
+		});
+		addJavaMossButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Adds some java moss\nCosts: 10 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addJavaMossButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
 		});
 		addJavaMossButton.add(new SlickUI.Element.Text(0,0, "Add Java Moss", 10)).center();
 
@@ -117,11 +143,31 @@ Game.prototype = {
 		addJavaFernButton.events.onInputUp.add(function () {
 			addJavaFern();
 		});
+		addJavaFernButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Adds some java fern\nCosts: 10 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addJavaFernButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
+		});
 		addJavaFernButton.add(new SlickUI.Element.Text(0,0, "Add Java Fern", 10)).center();
 
 		panelLeft.add(addMossBallButton = new SlickUI.Element.Button(0,205, 120, 40));
 		addMossBallButton.events.onInputUp.add(function () {
 			addMossBall();
+		});
+		addMossBallButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Add a moss ball\nCosts: 50 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addMossBallButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
 		});
 		addMossBallButton.add(new SlickUI.Element.Text(0,0, "Add Moss Ball", 10)).center();
 
@@ -129,11 +175,31 @@ Game.prototype = {
 		addBrineShrimpButton.events.onInputUp.add(function () {
 			AddBrineShrimp();
 		});
+		addBrineShrimpButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Add a brine shrimp\nCosts: 5 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addBrineShrimpButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
+		});
 		addBrineShrimpButton.add(new SlickUI.Element.Text(0,0, "Add Brine Shrimp", 10)).center();
 
 		panelLeft.add(addSmallShrimpButton = new SlickUI.Element.Button(0,315, 120, 40));
 		addSmallShrimpButton.events.onInputUp.add(function () {
 			addShrimp();
+		});
+		addSmallShrimpButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Add a small shrimp\nCosts: 10 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addSmallShrimpButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
 		});
 		addSmallShrimpButton.add(new SlickUI.Element.Text(0,0, "Add Shrimp", 10)).center();
 
@@ -141,11 +207,31 @@ Game.prototype = {
 		addSnailButton.events.onInputUp.add(function () {
 			addSnail();
 		});
+		addSnailButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Add a snail\nCosts: 20 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addSnailButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
+		});
 		addSnailButton.add(new SlickUI.Element.Text(0,0, "Add snail", 10)).center();
 
 		panelLeft.add(addFishButton = new SlickUI.Element.Button(0,405, 120, 40));
 		addFishButton.events.onInputUp.add(function () {
 			addFish();
+		});
+		addFishButton.events.onInputOver.add(function (){
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "Add a small fish\nCosts: 50 Gold", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
+		});
+		addFishButton.events.onInputOut.add(function (){
+			tooltipSprite.destroy();
+			tooltipText.destroy();
 		});
 		addFishButton.add(new SlickUI.Element.Text(0,0, "Add Fish", 10)).center();
 
@@ -195,9 +281,15 @@ Game.prototype = {
 		});
 		pauseButton.events.onInputOver.add(function (){
 			console.log('hovering over pause');
+			createTooltipPosition(game.input.mousePointer.x, game.input.mousePointer.y);
+			tooltipSprite = game.add.sprite(tooltipX, tooltipY, 'tooltipBox');
+		    tooltipText = game.add.text(0, 0, "pauses time", tooltipStyle);
+		    tooltipText.anchor.set(0.5);
 		});
 		pauseButton.events.onInputOut.add(function (){
 			console.log('not hovering over pause');
+			tooltipSprite.destroy();
+			tooltipText.destroy();
 		});
 		pauseButton.add(new SlickUI.Element.Text(0,0, "||")).center();
 
@@ -221,7 +313,10 @@ Game.prototype = {
 	},
 
 	update() {
-		
+		if(tooltipSprite !== undefined){
+			tooltipText.x = Math.floor(tooltipSprite.x + tooltipSprite.width / 2);
+    		tooltipText.y = Math.floor(tooltipSprite.y + tooltipSprite.height / 2);
+    	}
 	}, 
 
 	render() {
@@ -231,6 +326,18 @@ Game.prototype = {
     	//game.debug.pointer( game.input.activePointer );
 	},
 };
+
+function createTooltipPosition(mouseX, mouseY){
+	//Make sure the tooltips stay within the game bounds
+	if(mouseX > 800){
+		mouseX = 800;
+	}//maybe add one for 0
+	if(mouseY > 450){
+		mouseY = 450;
+	}
+	tooltipX = mouseX;
+	tooltipY = mouseY;
+}
 
 function ModifyLoopTimerX(){
 	game.time.events.events[1].delay = 10000;
@@ -337,7 +444,7 @@ function UpdateAlgaeGrowth(){
 	});
 	tempAlgaeGroup.removeChildren();
 	//console.log(tempShrimpGroup.total); //should be 0
-	console.log(numAlgae);
+	//console.log(numAlgae);
 }
 
 function AddAlgae(){
@@ -440,7 +547,7 @@ function UpdateBrineShrimpGrowth(){
 	});
 	tempShrimpGroup.removeChildren();
 	//console.log(tempShrimpGroup.total); //should be 0
-	console.log(numShrimp);
+	//console.log(numShrimp);
 }
 
 function UpdateBrineShrimpMovement(){
@@ -628,12 +735,15 @@ function updateFishMovement(){
 //TODO let fish get bigger.
 function updateFishGrowth(){
 	FishGroup.forEach( function(fish){
-		if(O2 >= 20){
+		//if(O2 >= 20){
 			O2 -= 20;
 			CO2 += 20;
-		}else if(O2 <= 0){
-			FishGroup.remove(fish);
-		}
+			if(O2 < 0){
+				O2 = 0;
+			}
+		//}else if(O2 <= 0){
+		//	FishGroup.remove(fish);
+		//}
 	});
 }
 
