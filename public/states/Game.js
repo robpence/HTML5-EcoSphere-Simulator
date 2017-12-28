@@ -17,7 +17,8 @@ var FishGroup, DeadFishGroup;
 var JavaFernGroup, DeadJavaFernGroup;
 var JavaMossGroup, JavaMossGroup;
 var MossBallGroup, DeadMossBallGroup;
-var MainMenuGroup, SettingsMenuGroup, beastMenuGroup;
+var MainMenuGroup, SettingsMenuGroup;
+var BeastMenuGroup;
 var numAlgae = 0;
 var numShrimp = 0;
 var numSnails = 0;
@@ -89,6 +90,7 @@ Game.prototype = {
 		DeadMossBallGroup = game.add.group();
 		MainMenuGroup = game.add.group();
 		SettingsMenuGroup = game.add.group();
+		BeastMenuGroup = game.add.group();
 
 		/* Create the map that is used for the fish tank */
 		map = game.add.tilemap('tank');
@@ -1117,24 +1119,24 @@ function openLoadMenu(){
 
 function openBeastiary(){
 	//TODO fill this out
-	beastMenu = game.add.sprite(game.width/2, game.height/2, 'menuPanel');
-    beastMenu.anchor.setTo(0.5, 0.5);
-    beastMenuGroup.add(beastMenu);
+	beastiaryMenu = game.add.sprite(game.width/2, game.height/2, 'menuPanel');
+    beastiaryMenu.anchor.setTo(0.5, 0.5);
+    BeastMenuGroup.add(beastiaryMenu);
 
-    beastLabel = game.add.text(beastMenu.position.x - 50, beastMenu._bounds.y + 60, 'Beastiary', { font: '30px Arial', fill: '#fff' });
-  	beastMenuGroup.add(beastLabel);
+    beastLabel = game.add.text(beastiaryMenu.position.x - 50, beastiaryMenu._bounds.y + 60, 'Beastiary', { font: '30px Arial', fill: '#fff' });
+  	BeastMenuGroup.add(beastLabel);
 
-  	backLabel2 = game.add.text(beastMenu.position.x - 60, beastMenu._bounds.y + 400, 'Back', { font: '28px Arial', fill: '#fff' });
-  	backLabel2.inputEnabled = true;
-  	backLabel2.events.onInputUp.add(function(){
+  	backLabel = game.add.text(beastiaryMenu.position.x - 60, beastiaryMenu._bounds.y + 400, 'back', { font: '28px Arial', fill: '#fff' });
+  	backLabel.inputEnabled = true;
+  	backLabel.events.onInputUp.add(function(){
   		closeBeastsMenu();
   	});
-  	beastMenuGroup.add(backLabel2);
+  	BeastMenuGroup.add(backLabel);
 
-    game.world.bringToTop(beastMenuGroup);
+  	game.world.bringToTop(BeastMenuGroup);
 }
 function closeBeastsMenu(){
-	beastMenuGroup.removeAll();
+	BeastMenuGroup.removeAll();
 	openMenu();
 }
 function saveGame(){
